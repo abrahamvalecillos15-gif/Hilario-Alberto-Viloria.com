@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏫 Sistema de Inscripción Escolar</title>
+    <link rel="stylesheet" href="estilo.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="contenedor">
+        <header class="header">
+            <div class="header-content">
+                <div class="logo"><i class="fas fa-school"></i></div>
+                <div class="header-text">
+                    <h1>🏫 UEE HILARION ALBERTO VILORIA</h1>
+                    <p class="subtitle">Educación de Calidad</p>
+                </div>
+            </div>
+            <div class="header-status">
+                <span id="connection-status" class="status-indicator online">
+                    <i class="fas fa-cloud"></i> <span id="status-text">Conectado</span>
+                </span>
+            </div>
+        </header>
+
+        <nav class="nav">
+            <button class="btn-nav active" onclick="mostrarSeccion('inicio')"><i class="fas fa-home"></i> Inicio</button>
+            <button class="btn-nav" onclick="mostrarSeccion('inscripcion')"><i class="fas fa-user-plus"></i> Inscribirse</button>
+            <button class="btn-nav" onclick="mostrarSeccion('login')"><i class="fas fa-sign-in-alt"></i> Login</button>
+            <button class="btn-nav" onclick="mostrarSeccion('buscar')"><i class="fas fa-search"></i> Buscar</button>
+            <button class="btn-nav" onclick="mostrarSeccion('lista')"><i class="fas fa-list"></i> Lista</button>
+        </nav>
+
+        <section id="inicio" class="seccion activa">
+            <div class="bienvenida">
+                <div class="bienvenida-icon"><i class="fas fa-graduation-cap"></i></div>
+                <h2>¡Bienvenido al Sistema de Inscripción!</h2>
+                <p class="bienvenida-texto">Completa el formulario o inicia sesión.</p>
+                
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle"></i> Instrucciones:</h3>
+                    <ul>
+                        <li>Nuevo → <strong>"Inscribirse"</strong></li>
+                        <li>Usuario y contraseña = <strong>Nombre + Apellido</strong></li>
+                        <li>Ej: <em>Juan Pérez</em> → <strong>juanperez</strong></li>
+                    </ul>
+                </div>
+
+                <div class="stats-container">
+                    <div class="stat-box"><i class="fas fa-users"></i><span class="stat-number" id="total-estudiantes">0</span><span class="stat-label">Inscritos</span></div>
+                    <div class="stat-box"><i class="fas fa-calendar-check"></i><span class="stat-number" id="año-actual">2026</span><span class="stat-label">Año</span></div>
+                </div>
+                
+                <button class="btn btn-primary btn-large" onclick="mostrarSeccion('inscripcion')"><i class="fas fa-pencil-alt"></i> Inscribirse</button>
+            </div>
+        </section>
+
+        <section id="inscripcion" class="seccion">
+            <div class="section-header">
+                <h2><i class="fas fa-user-plus"></i> Formulario de Inscripción</h2>
+                <p class="required-note">* Campos obligatorios</p>
+            </div>
+            
+            <form id="form-inscripcion" class="formulario">
+                <div class="form-section">
+                    <h3><i class="fas fa-child"></i> Información del Estudiante</h3>
+                    <div class="form-row">
+                        <div class="form-grupo">
+                            <label>👤 Nombre *</label>
+                            <input type="text" id="nombre" placeholder="Nombre" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label>👤 Apellido *</label>
+                            <input type="text" id="apellido" placeholder="Apellido" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-grupo">
+                            <label>🎂 Fecha de Nacimiento *</label>
+                            <input type="date" id="fecha-nacimiento" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label>🎂 Edad</label>
+                            <input type="text" id="edad" readonly placeholder="Se calcula automáticamente">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-grupo">
+                            <label>📚 Grado *</label>
+                            <select id="grado" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="1er Grado">1er Grado</option>
+                                <option value="2do Grado">2do Grado</option>
+                                <option value="3er Grado">3er Grado</option>
+                                <option value="4to Grado">4to Grado</option>
+                                <option value="5to Grado">5to Grado</option>
+                                <option value="6to Grado">6to Grado</option>
+                            </select>
+                        </div>
+                        <div class="form-grupo">
+                            <label>🏷️ Sección *</label>
+                            <select id="seccion" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="A">Sección A</option>
+                                <option value="B">Sección B</option>
+                                <option value="C">Sección C</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-grupo">
+                            <label>🚪 Salón</label>
+                            <input type="text" id="salon" readonly placeholder="Se asigna automáticamente">
+                        </div>
+                        <div class="form-grupo">
+                            <label>🏥 Tipo de Sangre</label>
+                            <select id="sangre">
+                                <option value="">Seleccionar...</option>
+                                <option value="A+">A+</option>
+                                <option value="A-">A-</option>
+                                <option value="B+">B+</option>
+                                <option value="B-">B-</option>
+                                <option value="O+">O+</option>
+                                <option value="O-">O-</option>
+                                <option value="AB+">AB+</option>
+                                <option value="AB-">AB-</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3><i class="fas fa-tshirt"></i> Tallas del Uniforme</h3>
+                    <div class="form-row">
+                        <div class="form-grupo">
+                            <label>👕 Talla de Camisa *</label>
+                            <select id="talla-camisa" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                                <option value="6">6</option>
+                                <option value="8">8</option>
+                                <option value="10">10</option>
+                                <option value="12">12</option>
+                                <option value="14">14</option>
+                                <option value="16">16</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                            </select>
+                        </div>
+                        <div class="form-grupo">
+                            <label>👖 Talla de Pantalón *</label>
+                            <select id="talla-pantalon" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="2">2</option>
+                                <option value="4">4</option>
+                                <option value="6">6</option>
+                                <option value="8">8</option>
+                                <option value="10">10</option>
+                                <option value="12">12</option>
+                                <option value="14">14</option>
+                                <option value="16">16</option>
+                                <option value="28">28</option>
+                                <option value="30">30</option>
+                                <option value="32">32</option>
+                            </select>
+                        </div>
+                        <div class="form-grupo">
+                            <label>👟 Talla de Zapatos *</label>
+                            <select id="talla-zapatos" required>
+                                <option value="">Seleccionar...</option>
+                                <option value="28">28</option>
+                                <option value="30">30</option>
+                                <option value="32">32</option>
+                                <option value="34">34</option>
+                                <option value="35">35</option>
+                                <option value="36">36</option>
+                                <option value="37">37</option>
+                                <option value="38">38</option>
+                                <option value="39">39</option>
+                                <option value="40">40</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3><i class="fas fa-notes-medical"></i> Información Médica</h3>
+                    <div class="form-row">
+                        <div class="form-grupo">
+                            <label>🏥 Alergias</label>
+                            <input type="text" id="alergias" placeholder="Polvo, medicamentos...">
+                        </div>
+                        <div class="form-grupo">
+                            <label>💊 Medicamentos</label>
+                            <input type="text" id="medicamentos" placeholder="Albuterol...">
+                        </div>
+                    </div>
+                    <div class="form-grupo">
+                        <label>🏥 Enfermedades</label>
+                        <textarea id="enfermedades" placeholder="Diabetes, epilepsia, asma..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <h3><i class="fas fa-user-tie"></i> Información del Tutor</h3>
+                    <div class="form-row">
+                        <div class="form-grupo">
+                            <label>👤 Nombre del Tutor *</label>
+                            <input type="text" id="tutor-nombre" placeholder="Nombre completo" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label>👤 Apellido del Tutor *</label>
+                            <input type="text" id="tutor-apellido" placeholder="Apellido completo" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-grupo">
+                            <label>🆔 Cédula *</label>
+                            <input type="text" id="tutor-cedula" placeholder="V-12345678" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label>📱 Teléfono *</label>
+                            <input type="tel" id="tutor-telefono" placeholder="0412-123-4567" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-grupo">
+                            <label>📧 Correo *</label>
+                            <input type="email" id="tutor-correo" placeholder="correo@ejemplo.com" required>
+                        </div>
+                        <div class="form-grupo">
+                            <label>👨‍💼 Parentesco</label>
+                            <select id="tutor-parentesco">
+                                <option value="Padre">Padre</option>
+                                <option value="Madre">Madre</option>
+                                <option value="Abuelo/a">Abuelo/a</option>
+                                <option value="Tío/a">Tío/a</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-grupo">
+                        <label>📍 Dirección</label>
+                        <textarea id="tutor-direccion" placeholder="Dirección completa"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-checkbox">
+                    <input type="checkbox" id="terminos" required>
+                    <label for="terminos">Acepto los términos y condiciones</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary btn-large">
+                    <i class="fas fa-check"></i> Inscribirse
+                </button>
+            </form>
+        </section>
+
+        <section id="login" class="seccion">
+            <div class="section-header">
+                <h2><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</h2>
+            </div>
+            <form id="form-login" class="formulario">
+                <div class="form-grupo">
+                    <label><i class="fas fa-user"></i> Usuario</label>
+                    <input type="text" id="login-usuario" placeholder="Nombre + Apellido" required>
+                </div>
+                <div class="form-grupo">
+                    <label><i class="fas fa-lock"></i> Contraseña</label>
+                    <input type="password" id="login-password" placeholder="Nombre + Apellido" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-large">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </button>
+            </form>
+        </section>
+
+        <section id="buscar" class="seccion">
+            <div class="section-header">
+                <h2><i class="fas fa-search"></i> Buscar Estudiante</h2>
+            </div>
+            <form id="form-buscar" class="formulario">
+                <div class="search-box">
+                    <input type="text" id="busqueda-input" placeholder="Buscar por nombre, apellido o cédula...">
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Buscar</button>
+                </div>
+            </form>
+            <div id="resultados-busqueda" class="resultados-container"></div>
+        </section>
+
+        <section id="lista" class="seccion">
+            <div class="section-header">
+                <h2><i class="fas fa-list"></i> Lista de Estudiantes</h2>
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="imprimirLista()">
+                        <i class="fas fa-print"></i> Imprimir Lista
+                    </button>
+                </div>
+            </div>
+            <div id="lista-estudiantes" class="lista-container"></div>
+        </section>
+
+        <section id="panel" class="seccion">
+            <div class="panel-header">
+                <div class="panel-title">
+                    <h2><i class="fas fa-user-graduate"></i> Planilla Digital del Estudiante</h2>
+                    <span id="badge-año" class="badge badge-success">2026</span>
+                </div>
+                <div class="panel-actions">
+                    <button class="btn btn-primary" onclick="imprimirDatos()"><i class="fas fa-print"></i> Imprimir Planilla</button>
+                    <button class="btn btn-danger" onclick="cerrarSesion()"><i class="fas fa-sign-out-alt"></i> Salir</button>
+                </div>
+            </div>
+            
+            <div id="planilla-imprimible">
+                <div class="tarjeta">
+                    <h3><i class="fas fa-child"></i> Datos del Estudiante</h3>
+                    <div class="info-grid">
+                        <div class="info-item"><label>Nombre</label><span id="panel-nombre"></span></div>
+                        <div class="info-item"><label>Apellido</label><span id="panel-apellido"></span></div>
+                        <div class="info-item"><label>Edad</label><span id="panel-edad"></span></div>
+                        <div class="info-item"><label>Fecha Nac.</label><span id="panel-fecha"></span></div>
+                        <div class="info-item"><label>Grado</label><span id="panel-grado"></span></div>
+                        <div class="info-item"><label>Sección</label><span id="panel-seccion"></span></div>
+                        <div class="info-item"><label>Salón Aula</label><span id="panel-salon"></span></div>
+                        <div class="info-item"><label>Tipo de Sangre</label><span id="panel-sangre"></span></div>
+                    </div>
+                </div>
+                
+                <div class="tarjeta">
+                    <h3><i class="fas fa-tshirt"></i> Tallas e Historial Médico</h3>
+                    <div class="info-grid">
+                        <div class="info-item"><label>Camisa</label><span id="panel-talla-camisa"></span></div>
+                        <div class="info-item"><label>Pantalón</label><span id="panel-talla-pantalon"></span></div>
+                        <div class="info-item"><label>Zapatos</label><span id="panel-talla-zapatos"></span></div>
+                        <div class="info-item"><label>Alergias</label><span id="panel-alergias">-</span></div>
+                        <div class="info-item"><label>Medicamentos</label><span id="panel-medicamentos">-</span></div>
+                        <div class="info-item"><label>Enfermedades</label><span id="panel-enfermedades">-</span></div>
+                    </div>
+                </div>
+
+                <div class="tarjeta">
+                    <h3><i class="fas fa-user-tie"></i> Información del Representante Legal</h3>
+                    <div class="info-grid">
+                        <div class="info-item"><label>Representante</label><span id="panel-tutor-nombre"></span></div>
+                        <div class="info-item"><label>Cédula de Identidad</label><span id="panel-tutor-cedula"></span></div>
+                        <div class="info-item"><label>Teléfono Contacto</label><span id="panel-tutor-telefono"></span></div>
+                        <div class="info-item"><label>Correo Electrónico</label><span id="panel-tutor-correo"></span></div>
+                        <div class="info-item"><label>Parentesco</label><span id="panel-tutor-parentesco"></span></div>
+                        <div class="info-item"><label>Dirección de Habitación</label><span id="panel-tutor-direccion"></span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div id="modal" class="modal" onclick="cerrarModal(event)">
+        <div class="modal-contenido">
+            <span class="modal-cerrar" onclick="cerrarModalDirecto()">&times;</span>
+            <div id="modal-mensaje" class="modal-mensaje"></div>
+        </div>
+    </div>
+
+    <!-- SCRIPT MODULAR DE FIREBASE REALTIME DATABASE -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getDatabase, ref, get, set, push, remove, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+      const firebaseConfig = {
+        databaseURL: "https://sistema-de-inscripcion-b940f-default-rtdb.firebaseio.com/"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getDatabase(app);
+
+      window.db = db;
+      window.dbRef = ref(db);
+      window.rtRef = ref;
+      window.rtGet = get;
+      window.rtSet = set;
+      window.rtPush = push;
+      window.rtRemove = remove;
+      window.rtChild = child;
+
+      window.dispatchEvent(new Event('firebase-ready'));
+    </script>
+
+    <!-- SCRIPT DE LÓGICA PRINCIPAL ACTUALIZADO PARA LA NUBE -->
+    <script>
+        let estudiantes = [];
+        let estudianteLogueado = null;
+        let añoEscolarActual = 2026; 
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Inicializando sistema escolar 2026 en la nube...');
+            
+            const añoActualDisplay = document.getElementById('año-actual');
+            if(añoActualDisplay) añoActualDisplay.textContent = añoEscolarActual;
+            
+            const badgeAño = document.getElementById('badge-año');
+            if(badgeAño) badgeAño.textContent = añoEscolarActual;
+            
+            configurarEventos();
+            verificarConexion();
+        });
+
+        // Cargar estudiantes automáticamente cuando Firebase esté listo
+        window.addEventListener('firebase-ready', () => {
+            cargarEstudiantesDesdeNube();
+        });
+
+        /**
+         * FUNCIÓN CLAVE: Cargar estudiantes desde Firebase Realtime Database
+         */
+        async function cargarEstudiantesDesdeNube() {
+            try {
+                if (!window.db || !window.rtGet) {
+                    setTimeout(cargarEstudiantesDesdeNube, 500);
+                    return;
+                }
+
+                const snapshot = await window.rtGet(window.rtRef(window.db, 'estudiantes'));
+                estudiantes = [];
+                
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    Object.keys(data).forEach(firebaseKey => {
+                        estudiantes.push({
+                            firebaseKey: firebaseKey, // Llave única en la nube
+                            ...data[firebaseKey]
+                        });
+                    });
+                }
+
+                actualizarEstadisticas();
+                verificarActualizacionGrados();
+                
+                const seccionLista = document.getElementById('lista');
+                if (seccionLista && seccionLista.classList.contains('activa')) {
+                    cargarListaEstudiantes();
+                }
+                
+                console.log("☁️ Estudiantes sincronizados con la nube con éxito.");
+            } catch (error) {
+                console.error("Error al cargar datos desde la nube:", error);
+                mostrarModal("❌ Error de conexión: No se pudieron sincronizar los datos con la nube.");
+            }
+        }
+
+        function mostrarSeccion(seccionId) {
+            const secciones = document.querySelectorAll('.seccion');
+            secciones.forEach(sec => sec.classList.remove('activa'));
+            
+            const botonesNav = document.querySelectorAll('.btn-nav');
+            botonesNav.forEach(btn => btn.classList.remove('active'));
+            
+            const seccionObjetivo = document.getElementById(seccionId);
+            if (!seccionObjetivo) return;
+            
+            seccionObjetivo.classList.add('activa');
+            
+            botonesNav.forEach(btn => {
+                const clickAttr = btn.getAttribute('onclick');
+                if (clickAttr && clickAttr.includes(`'${seccionId}'`)) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            if (seccionId === 'lista') {
+                cargarListaEstudiantes();
+            }
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function configurarEventos() {
+            configurarCalculoEdad();
+            configurarAsignacionSalon();
+            configurarFormularioInscripcion();
+            configurarLogin();
+            configurarBuscador();
+            
+            window.addEventListener('online', verificarConexion);
+            window.addEventListener('offline', verificarConexion);
+        }
+
+        function configurarCalculoEdad() {
+            const fechaInput = document.getElementById('fecha-nacimiento');
+            const edadInput = document.getElementById('edad');
+            if (!fechaInput || !edadInput) return;
+            
+            fechaInput.addEventListener('change', function() {
+                if (!this.value) {
+                    edadInput.value = '';
+                    return;
+                }
+                
+                const [year, month, day] = this.value.split('-').map(Number);
+                const today = new Date();
+                
+                let edad = today.getFullYear() - year;
+                const mesDiferencia = today.getMonth() - (month - 1); 
+                
+                if (mesDiferencia < 0 || (mesDiferencia === 0 && today.getDate() < day)) {
+                    edad--;
+                }
+                
+                if (edad >= 4 && edad <= 25) {
+                    edadInput.value = `${edad} años`;
+                } else if (edad < 4) {
+                    edadInput.value = 'Debe tener al menos 4 años';
+                } else {
+                    edadInput.value = 'Edad fuera del rango';
+                }
+            });
+        }
+
+        function configurarAsignacionSalon() {
+            const gradoSelect = document.getElementById('grado');
+            const seccionSelect = document.getElementById('seccion');
+            const salonInput = document.getElementById('salon');
+            if (!gradoSelect || !seccionSelect || !salonInput) return;
+            
+            function actualizarSalon() {
+                const grado = gradoSelect.value;
+                const seccion = seccionSelect.value;
+                
+                if (grado && seccion) {
+                    const gradoNum = grado.match(/\d+/)?.[0] || '1';
+                    const salonMap = { 'A': '1', 'B': '2', 'C': '3' };
+                    salonInput.value = `${gradoNum}0${salonMap[seccion] || '1'}`;
+                } else {
+                    salonInput.value = '';
+                }
+            }
+            
+            gradoSelect.addEventListener('change', actualizarSalon);
+            seccionSelect.addEventListener('change', actualizarSalon);
+        }
+
+        function actualizarEstadisticas() {
+            const total = document.getElementById('total-estudiantes');
+            if(total) total.textContent = estudiantes.length;
+        }
+
+        function verificarConexion() {
+            const status = document.getElementById('connection-status');
+            const texto = document.getElementById('status-text');
+            if(status && texto) {
+                if (navigator.onLine) {
+                    status.className = 'status-indicator online';
+                    texto.textContent = 'Conectado';
+                } else {
+                    status.className = 'status-indicator offline';
+                    texto.textContent = 'Sin conexión';
+                }
+            }
+        }
+
+        async function verificarActualizacionGrados() {
+            const añoGuardado = localStorage.getItem('añoEscolar');
+            if (añoGuardado && parseInt(añoGuardado) < añoEscolarActual) {
+                await actualizarGradosEstudiantes();
+            }
+            localStorage.setItem('añoEscolar', añoEscolarActual.toString());
+        }
+
+        async function actualizarGradosEstudiantes() {
+            let cambios = 0;
+            for (let est of estudiantes) {
+                let nuevoGrado = est.grado;
+                if (est.grado && est.grado !== '6to Grado' && est.grado !== 'Graduado') {
+                    const numGrado = parseInt(est.grado.match(/\d+/)?.[0] || '1');
+                    const grados = ['', '2do Grado', '3er Grado', '4to Grado', '5to Grado', '6to Grado'];
+                    nuevoGrado = grados[numGrado] || 'Graduado';
+                } else if (est.grado === '6to Grado') {
+                    nuevoGrado = 'Graduado';
+                }
+
+                if (nuevoGrado !== est.grado) {
+                    est.gradoAnterior = est.grado;
+                    est.grado = nuevoGrado;
+                    est.añoEscolar = añoEscolarActual;
+                    cambios++;
+                    if (est.firebaseKey) {
+                        await window.rtSet(window.rtRef(window.db, `estudiantes/${est.firebaseKey}`), est);
+                    }
+                }
+            }
+            
+            if (cambios > 0) {
+                await cargarEstudiantesDesdeNube();
+                mostrarModal(`🎓 ¡Bienvenido al Año Escolar ${añoEscolarActual}!\nSe promovieron ${cambios} estudiantes automáticamente en la nube.`);
+            }
+        }
+
+        /**
+         * FUNCIÓN CLAVE: Guardar nuevo estudiante directamente en la nube
+         */
+        function configurarFormularioInscripcion() {
+            const form = document.getElementById('form-inscripcion');
+            if (!form) return;
+            
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const cedula = document.getElementById('tutor-cedula').value.trim().toUpperCase();
+                const regex = /^[VEJPG]-\d{5,8}$/;
+                
+                if (!regex.test(cedula)) {
+                    mostrarModal('⚠️ Estructura de cédula del tutor inválida.<br>Por favor use el formato: V-12345678');
+                    return;
+                }
+                
+                const nombre = document.getElementById('nombre').value.trim();
+                const apellido = document.getElementById('apellido').value.trim();
+                
+                const existe = estudiantes.some(est => est.nombre.toLowerCase() === nombre.toLowerCase() && est.apellido.toLowerCase() === apellido.toLowerCase());
+                if (existe) {
+                    mostrarModal('⚠️ Alerta: Ya se encuentra registrado un estudiante con el mismo nombre y apellido.');
+                    return;
+                }
+                
+                const nuevoEstudiante = crearObjetoEstudiante();
+                
+                try {
+                    // Genera un ID único automático y guarda en Firebase Realtime Database
+                    const nuevaEstudianteRef = window.rtPush(window.rtRef(window.db, 'estudiantes'));
+                    await window.rtSet(nuevaEstudianteRef, nuevoEstudiante);
+                    
+                    // Recarga la lista desde la nube
+                    await cargarEstudiantesDesdeNube();
+                    
+                    mostrarModal(`
+                        <div style="text-align: center;">
+                            <span style="font-size: 3rem;">🎉</span>
+                            <h3 style="color: #28a745; margin-top: 10px;">¡Inscripción Guardada en la Nube!</h3>
+                            <p style="margin: 15px 0; color: #333;">El alumno ha quedado registrado en el servidor para el período <strong>${nuevoEstudiante.añoEscolar}</strong>.</p>
+                            <div style="background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px dashed #ced4da; text-align: left; max-width: 320px; margin: 0 auto;">
+                                <p style="margin: 5px 0; font-family: monospace;"><strong>👤 Usuario:</strong> <span style="color: #e83e8c; font-weight:bold;">${nuevoEstudiante.usuario}</span></p>
+                                <p style="margin: 5px 0; font-family: monospace;"><strong>🔑 Contraseña:</strong> <span style="color: #e83e8c; font-weight:bold;">${nuevoEstudiante.usuario}</span></p>
+                            </div>
+                            <p style="font-size: 0.85em; color: #6c757d; margin-top: 15px;">⚠️ Copie sus credenciales. Serán obligatorias para ingresar al Panel.</p>
+                        </div>
+                    `);
+                    
+                    form.reset();
+                    mostrarSeccion('inicio');
+                } catch (error) {
+                    console.error("Error al guardar en Firebase:", error);
+                    mostrarModal("❌ Error al procesar la inscripción en la base de datos remota.");
+                }
+            });
+        }
+
+        function crearObjetoEstudiante() {
+            const nombre = document.getElementById('nombre').value.trim();
+            const apellido = document.getElementById('apellido').value.trim();
+            const usuarioClean = (nombre + apellido).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s/g, '');
+            
+            return {
+                id: Date.now(),
+                nombre: nombre,
+                apellido: apellido,
+                fechaNacimiento: document.getElementById('fecha-nacimiento').value,
+                edad: document.getElementById('edad').value,
+                grado: document.getElementById('grado').value,
+                seccion: document.getElementById('seccion').value,
+                salon: document.getElementById('salon').value,
+                sangre: document.getElementById('sangre').value,
+                tallaCamisa: document.getElementById('talla-camisa').value,
+                tallaPantalon: document.getElementById('talla-pantalon').value,
+                tallaZapatos: document.getElementById('talla-zapatos').value,
+                alergias: document.getElementById('alergias').value.trim() || 'Ninguna',
+                medicamentos: document.getElementById('medicamentos').value.trim() || 'Ninguno',
+                enfermedades: document.getElementById('enfermedades').value.trim() || 'Ninguna',
+                tutorNombre: document.getElementById('tutor-nombre').value.trim(),
+                tutorApellido: document.getElementById('tutor-apellido').value.trim(),
+                cedulaTutor: document.getElementById('tutor-cedula').value.trim().toUpperCase(),
+                tutorTelefono: document.getElementById('tutor-telefono').value.trim(),
+                tutorCorreo: document.getElementById('tutor-correo').value.trim(),
+                tutorParentesco: document.getElementById('tutor-parentesco').value,
+                tutorDireccion: document.getElementById('tutor-direccion').value.trim() || 'No especificada',
+                usuario: usuarioClean,
+                password: usuarioClean,
+                fechaInscripcion: new Date().toLocaleDateString('es-VE'),
+                añoEscolar: añoEscolarActual
+            };
+        }
+
+        function configurarLogin() {
+            const form = document.getElementById('form-login');
+            if (!form) return;
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const usuarioInput = document.getElementById('login-usuario').value.trim().toLowerCase().replace(/\s/g, '');
+                const passwordInput = document.getElementById('login-password').value.trim().toLowerCase().replace(/\s/g, '');
+                
+                const estudiante = estudiantes.find(est => est.usuario === usuarioInput);
+                
+                if (!estudiante) {
+                    mostrarModal('❌ Acceso denegado: El usuario indicado no figura en los registros.');
+                    return;
+                }
+                if (estudiante.password !== passwordInput) {
+                    mostrarModal('❌ Acceso denegado: Contraseña incorrecta.');
+                    return;
+                }
+                
+                estudianteLogueado = estudiante;
+                cargarPanelEstudiante(estudiante);
+                mostrarSeccion('panel');
+                form.reset();
+            });
+        }
+
+        function cargarPanelEstudiante(est) {
+            document.getElementById('panel-nombre').textContent = est.nombre;
+            document.getElementById('panel-apellido').textContent = est.apellido;
+            document.getElementById('panel-edad').textContent = est.edad;
+            document.getElementById('panel-fecha').textContent = formatDate(est.fechaNacimiento);
+            document.getElementById('panel-grado').textContent = est.grado;
+            document.getElementById('panel-seccion').textContent = 'Sección ' + est.seccion;
+            document.getElementById('panel-salon').textContent = est.salon || 'Por asignar';
+            document.getElementById('panel-sangre').textContent = est.sangre || 'No registrado';
+            document.getElementById('panel-talla-camisa').textContent = est.tallaCamisa || '-';
+            document.getElementById('panel-talla-pantalon').textContent = est.tallaPantalon || '-';
+            document.getElementById('panel-talla-zapatos').textContent = est.tallaZapatos || '-';
+            
+            document.getElementById('panel-alergias').textContent = est.alergias;
+            document.getElementById('panel-medicamentos').textContent = est.medicamentos;
+            document.getElementById('panel-enfermedades').textContent = est.enfermedades;
+
+            document.getElementById('panel-tutor-nombre').textContent = `${est.tutorNombre} ${est.tutorApellido}`;
+            document.getElementById('panel-tutor-cedula').textContent = est.cedulaTutor;
+            document.getElementById('panel-tutor-telefono').textContent = est.tutorTelefono;
+            document.getElementById('panel-tutor-correo').textContent = est.tutorCorreo;
+            document.getElementById('panel-tutor-parentesco').textContent = est.tutorParentesco;
+            document.getElementById('panel-tutor-direccion').textContent = est.tutorDireccion;
+        }
+
+        function cerrarSesion() {
+            estudianteLogueado = null;
+            mostrarSeccion('inicio');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            const [year, month, day] = dateStr.split('-');
+            return `${day}/${month}/${year}`;
+        }
+
+        function configurarBuscador() {
+            const form = document.getElementById('form-buscar');
+            if (!form) return;
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const busqueda = document.getElementById('busqueda-input').value.trim().toLowerCase();
+                
+                if (!busqueda) {
+                    mostrarModal('⚠️ Ingrese un criterio válido de búsqueda.');
+                    return;
+                }
+                
+                const resultados = estudiantes.filter(est => 
+                    est.nombre.toLowerCase().includes(busqueda) ||
+                    est.apellido.toLowerCase().includes(busqueda) ||
+                    est.cedulaTutor.toLowerCase().includes(busqueda) ||
+                    est.usuario.toLowerCase().includes(busqueda)
+                );
+                
+                mostrarResultados(resultados);
+            });
+        }
+
+        function mostrarResultados(resultados) {
+            const container = document.getElementById('resultados-busqueda');
+            if (!container) return;
+            
+            if (resultados.length === 0) {
+                container.innerHTML = '<p class="lista-vacia">🔍 No se localizaron estudiantes.</p>';
+                return;
+            }
+            
+            container.innerHTML = resultados.map(est => `
+                <div class="resultado-item" style="border-left: 4px solid #007bff; padding: 15px; margin: 10px 0; background: #f9f9f9; border-radius: 4px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h4><i class="fas fa-user-graduate"></i> ${est.nombre} ${est.apellido}</h4>
+                        <p><strong>Grado:</strong> ${est.grado} — Sección "${est.seccion}"</p>
+                        <p><strong>Tutor:</strong> ${est.tutorNombre} (${est.cedulaTutor})</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="verPlanillaDesdeBusqueda(${est.id})" style="margin-right: 5px; padding: 8px 12px;">
+                            <i class="fas fa-eye"></i> Ver Planilla
+                        </button>
+                        <button class="btn btn-danger" onclick="eliminarEstudiante(${est.id}, '${est.nombre} ${est.apellido}')" style="background-color: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">
+                            <i class="fas fa-user-minus"></i> Retirar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function verPlanillaDesdeBusqueda(idEstudiante) {
+            const est = estudiantes.find(e => e.id === idEstudiante);
+            if(est) {
+                cargarPanelEstudiante(est);
+                mostrarSeccion('panel');
+            }
+        }
+
+        function cargarListaEstudiantes() {
+            const container = document.getElementById('lista-estudiantes');
+            if (!container) return;
+            
+            if (estudiantes.length === 0) {
+                container.innerHTML = '<p class="lista-vacia">📋 No se registran alumnos inscritos.</p>';
+                return;
+            }
+            
+            const ordenados = [...estudiantes].sort((a, b) => a.apellido.localeCompare(b.apellido));
+            
+            container.innerHTML = ordenados.map((est, i) => `
+                <div class="lista-item" style="padding: 12px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h4>${i + 1}. ${est.apellido}, ${est.nombre}</h4>
+                        <p style="font-size: 0.9em; color: #555;">Grado: ${est.grado} | Sección: ${est.seccion}</p>
+                    </div>
+                    <div>
+                        <button class="btn btn-primary" onclick="verPlanillaDesdeBusqueda(${est.id})" style="padding: 6px 10px; font-size: 0.85em; margin-right: 5px;">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                        <button class="btn btn-danger" onclick="eliminarEstudiante(${est.id}, '${est.nombre} ${est.apellido}')" style="background-color: #dc3545; color: white; border: none; padding: 6px 10px; border-radius: 4px; cursor: pointer; font-size: 0.85em;">
+                            <i class="fas fa-trash"></i> Retirar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        /**
+         * FUNCIÓN CLAVE: Eliminar/Retirar estudiante de la nube
+         */
+        async function eliminarEstudiante(idEstudiante, nombreCompleto) {
+            const confirmarRetiro = confirm(`⚠️ ADVERTENCIA:\n¿Está seguro de retirar al estudiante "${nombreCompleto}"?\nEsta acción borrará de inmediato su ficha de la nube.`);
+            
+            if (confirmarRetiro) {
+                try {
+                    const est = estudiantes.find(e => e.id === idEstudiante);
+                    if (est && est.firebaseKey) {
+                        // Borra el registro en Firebase usando su llave única
+                        await window.rtRemove(window.rtRef(window.db, `estudiantes/${est.firebaseKey}`));
+                        await cargarEstudiantesDesdeNube();
+                        
+                        mostrarModal(`<p style="color: #dc3545; font-weight: bold; text-align: center; margin: 0;">❌ El estudiante "${nombreCompleto}" ha sido dado de baja en la nube de forma permanente.</p>`);
+                        
+                        const containerBusqueda = document.getElementById('resultados-busqueda');
+                        if(containerBusqueda) containerBusqueda.innerHTML = "";
+                    }
+                } catch (error) {
+                    console.error("Error al eliminar en Firebase:", error);
+                    mostrarModal("❌ Error: No se pudo eliminar el expediente del servidor.");
+                }
+            }
+        }
+
+        function imprimirLista() { window.print(); }
+        function imprimirDatos() { window.print(); }
+
+        function mostrarModal(mensaje) {
+            const modal = document.getElementById('modal');
+            const modalMensaje = document.getElementById('modal-mensaje');
+            if (modal && modalMensaje) {
+                modalMensaje.innerHTML = mensaje; 
+                modal.style.display = 'flex';
+            }
+        }
+
+        function cerrarModalDirecto() {
+            const modal = document.getElementById('modal');
+            if (modal) modal.style.display = 'none';
+        }
+
+        function cerrarModal(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                cerrarModalDirecto();
+            }
+        }
+
+        window.mostrarSeccion = mostrarSeccion;
+        window.cerrarSesion = cerrarSesion;
+        window.imprimirLista = imprimirLista;
+        window.imprimirDatos = imprimirDatos;
+        window.eliminarEstudiante = eliminarEstudiante;
+        window.verPlanillaDesdeBusqueda = verPlanillaDesdeBusqueda;
+        window.cerrarModalDirecto = cerrarModalDirecto;
+        window.cerrarModal = cerrarModal;
+    </script>
+</body>
+</html>
